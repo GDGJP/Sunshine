@@ -6,4 +6,8 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <!--Criando o Maps no menu, lembre-se de criar a variavel-->
+    <item android:id="@+id/location_map"
+        android:title="@string/location_map"
+        android:showAsAction="never"/>
 </menu>

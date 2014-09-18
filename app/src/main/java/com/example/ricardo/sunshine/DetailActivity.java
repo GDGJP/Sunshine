@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 
@@ -52,7 +54,23 @@ public class DetailActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
+        private static final String LOG_TAG = PlaceholderFragment.class.getSimpleName();
+        private String mForecastStr;
+
         public PlaceholderFragment() {
+            setHasOptionsMenu(true);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+
+            inflater.inflate(R.menu.detailfragment, menu);
+
+            MenuItem menuItem = menu.findItem(R.id.action_share);
+
+            ShareActionProvider shareActionProvider = (ShareActionProvider) menuItem.getActionProvider();
+            shareActionProvider.setShareIntent(createShareForecastIntent());
+
         }
         //Criando nosso Fragmento.
         @Override
@@ -62,10 +80,19 @@ public class DetailActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
             Intent intent = getActivity().getIntent();
             if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-                String forecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
-                ((TextView) rootView.findViewById(R.id.detail_text)).setText(forecastStr);
+                 mForecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
+                ((TextView) rootView.findViewById(R.id.detail_text)).setText(mForecastStr);
             }
             return rootView;
+        }
+        private Intent createShareForecastIntent() {
+            //Action_send envia a intent;
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            //Essa Flag faz com que a atividade não entre no nosso ciclo de atictys o que poderia levarmos ao voltarmos, a ir para outraa aplicação.
+            shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, mForecastStr  + getString(R.string.HASH_TAG));
+            return shareIntent;
         }
     }
 }
