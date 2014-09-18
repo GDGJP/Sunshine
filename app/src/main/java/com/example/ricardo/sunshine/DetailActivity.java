@@ -53,11 +53,11 @@ public class DetailActivity extends ActionBarActivity {
 
         public PlaceholderFragment() {
         }
-
+        //Criando nosso Fragmento.
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-
+            //Chamando o Layout que no caso será o fragment_detail.
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
             Intent intent = getActivity().getIntent();
             if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {

@@ -20,14 +20,14 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-
+    //Onde você coloca os menus a serem utilizados sejam eles menus de configurações ou de ações
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
+    //O que acontece ao selecionar determinado item do menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

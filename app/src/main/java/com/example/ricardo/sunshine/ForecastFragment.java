@@ -43,7 +43,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //Tem menu? Verdadeiro
         setHasOptionsMenu(true);
     }
 
@@ -55,6 +55,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        //Se eu atualizar "Refresh" o arquivo executa com esse código postal.
         if(id==R.id.action_refresh) {
             FetchWeatherTask weatherTask = new FetchWeatherTask();
             weatherTask.execute("94043");
@@ -68,7 +69,7 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
+        //Arquivo inicial da primeira aula onde vocês criaram uma Arraylist manualmente
         String[] forecastArray = {"Hoje - Sol - 25/31",
                 "Amanhã - Sol - 25/31",
                 "Sábado - Sol - 25/31",
@@ -89,15 +90,17 @@ public class ForecastFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.list_item_forecast_textview);
         listView.setAdapter(forecastAdapter);
 
-
+        //Ao clicar em algum item irá acontecer as ações abaixo:
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView,View view, int position, long l) {
                 String forecast = forecastAdapter.getItem(position);
-
+                //Toast serve para mostrar uma pequena mensagem abaixo o código:
                 //Toast.makeText(getActivity(),forecast,Toast.LENGTH_SHORT).show();
+                //Criar uma nova intent onde eu chamo a DetailActivity (Outra Activity "tela")
                 Intent intent = new Intent(getActivity(),DetailActivity.class)
                         .putExtra(Intent.EXTRA_TEXT,forecast);
+                //Inicializa a Intent
                 startActivity(intent);
             }
         });
@@ -115,6 +118,7 @@ public class ForecastFragment extends Fragment {
         private String getReadableDateString(long time){
             // Because the API returns a unix timestamp (measured in seconds),
             // it must be converted to milliseconds in order to be converted to valid date.
+            //Formatação da DATA.
             Date date = new Date(time * 1000);
             SimpleDateFormat format = new SimpleDateFormat("E, MMM d");
             return format.format(date).toString();
@@ -141,7 +145,7 @@ public class ForecastFragment extends Fragment {
          */
         private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
                 throws JSONException {
-
+            //Os nomes dos objetos Json que vamos precisam ser extraidos.
             // These are the names of the JSON objects that need to be extracted.
             final String OWM_LIST = "list";
             final String OWM_WEATHER = "weather";
@@ -205,9 +209,11 @@ public class ForecastFragment extends Fragment {
 
             // Will contain the raw JSON response as a string.
             String forecastJsonStr = null;
-
+            //Qual formato voce quer pegar as informações JSON ou XML
             String format = "json";
+            //Unidades métricas de medida metric = CELSIUS imperial = Fahrenheit (nao sei se o nome ta certo =P)
             String units = "metric";
+            //Numero de dias que voce quer puxar no JSON o parametro é o CNT
             int numDays = 7;
 
             try {
@@ -216,6 +222,7 @@ public class ForecastFragment extends Fragment {
                 // http://openweathermap.org/API#forecast
                 final String FORECAST_BASE_URL =
                         "http://api.openweathermap.org/data/2.5/forecast/daily?";
+                //Parametros que vamos pegar da URL acima
                 final String QUERY_PARAM = "q";
                 final String FORMAT_PARAM = "mode";
                 final String UNITS_PARAM = "units";
